@@ -14,7 +14,7 @@ class Ship:
         self.game = game
         self.settings = game.settings
         self.screen = game.screen
-        self.boundaries = self.screen.get_rect()
+        self.boundaries = game.screen.get_rect()
 
         self.image = pygame.image.load(self.settings.ship_file)
         self.image = pygame.transform.scale(self.image,
