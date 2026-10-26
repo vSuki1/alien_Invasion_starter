@@ -22,11 +22,14 @@ class Ship:
         )
 
         self.rect = self.image.get_rect()
-        self.rect.midbottom = self.boundaries.midbottom
+        self._center_ship()
         self.moving_right = False
         self.moving_left = False
-        self.x = float(self.rect.x)
         self.arsenal = arsenal
+
+    def _center_ship(self) -> None:
+        self.rect.midbottom = self.boundaries.midbottom
+        self.x = float(self.rect.x)
 
 
     def update(self) -> None:
@@ -48,3 +51,6 @@ class Ship:
     
     def fire(self) -> bool:
         return self.arsenal.fire_bullet()
+
+    def check_collisions(self, aliens) -> bool:
+        return pygame.sprite.spritecollideany(self, aliens) is not None
