@@ -34,8 +34,30 @@ class AlienInvasion:
             self._check_events()
             self.ship.update()
             self.alien_fleet.update_fleet()
+            self._check_collisions()
             self._update_screen()
             self.clock.tick(self.settings.FPS)
+
+    def _check_collisions(self) -> None:
+        
+        if self.ship.check_collisions(self.alien_fleet.fleet):
+            self._reset_level()
+
+        
+        if self.alien_fleet.check_fleet_bottom():
+            self._reset_level()
+
+        if self.alien_fleet.check_destroyed_status():
+            self._reset_level()
+
+      
+        collisions = self.alien_fleet.check_collisions(self.ship.arsenal.arsenal)
+
+
+    def _reset_level(self) -> None:
+         self.ship.arsenal.arsenal.empty()
+         self.alien_fleet.fleet.empty()
+         self.alien_fleet.create_fleet()
 
     def _check_events(self) -> None:
         for event in pygame.event.get():
