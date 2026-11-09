@@ -67,7 +67,7 @@ class AlienInvasion:
             self.settings.increase_difficulty()
 
             self.game_stats.update_level()
-
+            self.HUD.update_level()
 
 
 
