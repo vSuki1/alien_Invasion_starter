@@ -37,6 +37,6 @@ class Settings:
         self.text_color = (255, 255, 255)
         self.button_font_size = 48
         self.Hud_font_size = 36
-        self.font_file = Path.cwd() / 'Assets' / 'fonts' / 'Silkscreen-Regular.ttf'
+        self.font_file = Path.cwd() / 'Assets' / 'Fonts' / 'Silkscreen' / 'Silkscreen-Regular.ttf'
 
         self.starting_ship_count = 3
