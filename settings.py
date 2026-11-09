@@ -30,4 +30,13 @@ class Settings:
         self.fleet_direction = 1
         self.fleet_drop_speed = 40
 
+        self.button_w = 200
+        self.button_h = 50
+        self.button_color = (0, 255, 0)
+
+        self.text_color = (255, 255, 255)
+        self.button_font_size = 48
+        self.Hud_font_size = 36
+        self.font_file = Path.cwd() / 'Assets' / 'fonts' / 'Silkscreen-Regular.ttf'
+
         self.starting_ship_count = 3
