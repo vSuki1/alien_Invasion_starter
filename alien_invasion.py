@@ -59,6 +59,8 @@ class AlienInvasion:
 
         if self.alien_fleet.check_destroyed_status():
             self._reset_level()
+            self.settings.increase_difficulty()
+
 
       
         collisions = self.alien_fleet.check_collisions(self.ship.arsenal.arsenal)
@@ -82,6 +84,7 @@ class AlienInvasion:
         self.ship._center_ship()
         self.game_active = True
         pygame.mouse.set_visible(False)
+        self.settings.initialize_dynamic_settings()
 
 
     def _check_events(self) -> None:
