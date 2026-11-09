@@ -8,6 +8,7 @@ from game_stats import GameStats
 from alien_fleet import AlienFleet
 from time import sleep, time
 from button import Button
+from hud import HUD
 
 
 class AlienInvasion:
@@ -15,13 +16,17 @@ class AlienInvasion:
         pygame.init()
         self.settings = Settings()
         self.settings.initialize_dynamic_settings()
-        self.game_stats = GameStats(self)
+
 
         self.screen = pygame.display.set_mode((self.settings.screen_w, self.settings.screen_h))
         pygame.display.set_caption(self.settings.name)
 
         self.bg_image = pygame.image.load(self.settings.bg_file)
         self.bg_image = pygame.transform.scale(self.bg_image, (self.settings.screen_w, self.settings.screen_h))
+
+
+        self.game_stats = GameStats(self)
+        self.HUD = HUD(self)
 
         self.running = True
         self.clock = pygame.time.Clock()
@@ -35,7 +40,7 @@ class AlienInvasion:
         self.alien_fleet.create_fleet()
 
         self.play_button = Button(self, "Play")
-
+        
         self.game_active = False
 
     def run_game(self) -> None:
@@ -69,6 +74,7 @@ class AlienInvasion:
         collisions = self.alien_fleet.check_collisions(self.ship.arsenal.arsenal)
         if collisions:
             self.game_stats.update(collisions)
+            self.HUD.update_scores()
 
     def _check_game_status(self) -> None:
         if self.game_stats.ships_left > 0:
@@ -89,6 +95,9 @@ class AlienInvasion:
         self.ship._center_ship()
         self.game_active = True
         self.game_stats.reset_stats()
+
+        self.HUD.update_scores()
+
         pygame.mouse.set_visible(False)
         self.settings.initialize_dynamic_settings()
 
@@ -97,6 +106,7 @@ class AlienInvasion:
         for event in pygame.event.get():
          if event.type == pygame.QUIT:
             self.running = False
+            self.game_stats.save_scores()
             pygame.quit()
             sys.exit()
          elif event.type == pygame.KEYDOWN and self.game_active == True :
@@ -124,6 +134,7 @@ class AlienInvasion:
             self.ship.moving_left = True
         elif event.key == pygame.K_q:
             self.running = False
+            self.game_stats.save_scores()
             pygame.quit()
             sys.exit()
         elif event.key == pygame.K_SPACE:
@@ -135,6 +146,7 @@ class AlienInvasion:
     def _update_screen(self) -> None:
         self.screen.blit(self.bg_image, (0, 0))
         self.ship.draw()
+        self.HUD.draw()
         if not self.game_active:
             self.play_button.draw()
             pygame.mouse.set_visible(True)
