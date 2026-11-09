@@ -15,7 +15,7 @@ class AlienInvasion:
         pygame.init()
         self.settings = Settings()
         self.settings.initialize_dynamic_settings()
-        self.game_stats = GameStats(self.settings.starting_ship_count)
+        self.game_stats = GameStats(self)
 
         self.screen = pygame.display.set_mode((self.settings.screen_w, self.settings.screen_h))
         pygame.display.set_caption(self.settings.name)
@@ -61,9 +61,14 @@ class AlienInvasion:
             self._reset_level()
             self.settings.increase_difficulty()
 
+            self.game_stats.update_level()
 
-      
+
+
+
         collisions = self.alien_fleet.check_collisions(self.ship.arsenal.arsenal)
+        if collisions:
+            self.game_stats.update(collisions)
 
     def _check_game_status(self) -> None:
         if self.game_stats.ships_left > 0:
@@ -83,6 +88,7 @@ class AlienInvasion:
         self._reset_level()
         self.ship._center_ship()
         self.game_active = True
+        self.game_stats.reset_stats()
         pygame.mouse.set_visible(False)
         self.settings.initialize_dynamic_settings()
 
