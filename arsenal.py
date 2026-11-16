@@ -2,6 +2,7 @@
 import pygame
 from typing import TYPE_CHECKING
 from bullet import Bullet
+from charged_bullet import ChargedBullet
 
 if TYPE_CHECKING:
     from alien_invasion import AlienInvasion
@@ -31,5 +32,15 @@ class Arsenal:
         if len(self.arsenal) < self.settings.bullet_amount:
             new_bullet = Bullet(self.game)
             self.arsenal.add(new_bullet)
+            return True
+        return False
+
+
+
+    def fire_charged_bullet(self) -> bool:
+  
+        if len(self.arsenal) < self.settings.bullet_amount:
+            bullet = ChargedBullet(self.game)
+            self.arsenal.add(bullet)
             return True
         return False

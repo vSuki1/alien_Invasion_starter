@@ -42,6 +42,9 @@ class AlienInvasion:
    #     self.play_button = Button(self, "Play")
         
         self.game_active = True
+        
+        self.charging = False
+        self.charge_start = 0
 
     def run_game(self) -> None:
         while self.running:
@@ -126,6 +129,17 @@ class AlienInvasion:
             self.ship.moving_right = False
         elif event.key == pygame.K_LEFT:
             self.ship.moving_left = False
+        elif event.key == pygame.K_z:
+            if self.charging == True:
+                if pygame.time.get_ticks() - self.charge_start >= self.settings.charge_time:
+                    self.ship.fire_charged()
+                    self.laser_sound.play()
+                    self.laser_sound.fadeout(250)
+                self.charging = False
+
+        elif event.key == pygame.K_x:
+            self.ship.shield_active = False
+            
 
     def _check_keydown_events(self, event) -> None:
         if event.key == pygame.K_RIGHT:
@@ -143,6 +157,16 @@ class AlienInvasion:
                 self.laser_sound.fadeout(250)
         elif event.key in (pygame.K_LSHIFT, pygame.K_RSHIFT):
           self.ship.dash()
+     
+     
+        elif event.key == pygame.K_z:
+            if self.charging == False:
+                self.charging = True
+                self.charge_start = pygame.time.get_ticks()
+
+
+        elif event.key == pygame.K_x:
+            self.ship.shield_active = True
 
     def _update_screen(self) -> None:
         self.screen.blit(self.bg_image, (0, 0))

@@ -50,9 +50,18 @@ class Settings:
 
 
 
-            self.dash_distance = 1
+            self.dash_distance = 150
             self.max_dashes = 3
             self.dash_recharge_kills = 1
+
+
+
+            self.charge_time = 1000
+            self.charged_bullet_w = 60       
+            self.charged_bullet_h = 120      
+            self.charged_bullet_speed = 10   
+
+            self.shield_active = False  # NEW
 
 
     def increase_difficulty(self) -> None:

@@ -29,6 +29,10 @@ class Ship:
 
         self.dashes_left = self.settings.max_dashes
 
+        self.shield_active = False  
+        self.shields_left = 1      
+        
+
     def _center_ship(self) -> None:
         self.rect.midbottom = self.boundaries.midbottom
         self.x = float(self.rect.x)
@@ -49,12 +53,17 @@ class Ship:
     def draw(self) -> None:
         self.arsenal.draw()
         self.screen.blit(self.image, self.rect)
+
+
+        if self.shield_active:
+            pygame.draw.rect(self.screen, (0, 150, 255), (self.rect.x, self.rect.y - 15, self.rect.width, 10))
     
     
     def fire(self) -> bool:
         return self.arsenal.fire_bullet()
 
-
+    def fire_charged(self) -> bool:
+         return self.arsenal.fire_charged_bullet()
 
     def dash(self) -> None:
         """Moves the ship using dash."""
@@ -75,7 +84,13 @@ class Ship:
         self.rect.x = int(self.x)
         self.dashes_left -= 1
         print(self.dashes_left)
-        
+
+    def activate_shield(self) -> None:
+        """Acivate shield if one is available."""
+        if self.shields_left > 0 and self.shield_active == False:
+            self.shield_active = True
+            self.shields_left -= 1
+            
 
     def check_collisions(self, aliens) -> bool:
         return pygame.sprite.spritecollideany(self, aliens) is not None
