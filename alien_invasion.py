@@ -141,7 +141,8 @@ class AlienInvasion:
            if self.ship.fire():
                 self.laser_sound.play()
                 self.laser_sound.fadeout(250)
-
+        elif event.key in (pygame.K_LSHIFT, pygame.K_RSHIFT):
+          self.ship.dash()
 
     def _update_screen(self) -> None:
         self.screen.blit(self.bg_image, (0, 0))

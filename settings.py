@@ -3,7 +3,7 @@ class Settings:
 
 
     def __init__(self) -> None:
-        self.name: str = 'Alien Invasion'
+        self.name: str = 'Alien Invasion - Track 1'
         self.screen_w = 1200
         self.screen_h = 800
         self.FPS = 60
@@ -47,6 +47,12 @@ class Settings:
             self.fleet_speed = 2
             self.fleet_drop_speed = 40
             self.alien_points = 50
+
+
+
+            self.dash_distance = 1
+            self.max_dashes = 3
+            self.dash_recharge_kills = 1
 
 
     def increase_difficulty(self) -> None:

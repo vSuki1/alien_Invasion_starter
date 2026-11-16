@@ -27,6 +27,8 @@ class Ship:
         self.moving_left = False
         self.arsenal = arsenal
 
+        self.dashes_left = self.settings.max_dashes
+
     def _center_ship(self) -> None:
         self.rect.midbottom = self.boundaries.midbottom
         self.x = float(self.rect.x)
@@ -51,6 +53,29 @@ class Ship:
     
     def fire(self) -> bool:
         return self.arsenal.fire_bullet()
+
+
+
+    def dash(self) -> None:
+        """Moves the ship using dash."""
+        if self.dashes_left <= 0:
+            return
+        if self.moving_right:
+            self.x += self.settings.dash_distance
+            if self.x + self.rect.width > self.boundaries.right:
+                self.x = self.boundaries.right - self.rect.width
+
+        elif self.moving_left:
+            self.x -= self.settings.dash_distance
+            if self.x < self.boundaries.left:
+                self.x = self.boundaries.left
+        else:
+            return
+
+        self.rect.x = int(self.x)
+        self.dashes_left -= 1
+        print(self.dashes_left)
+        
 
     def check_collisions(self, aliens) -> bool:
         return pygame.sprite.spritecollideany(self, aliens) is not None
